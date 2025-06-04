@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FinancialAPI.Data;
+using FinancialAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to container
+// Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -16,10 +17,19 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Database config
+// Database configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// HTTP Client configuration
+builder.Services.AddHttpClient<YahooFinanceService>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(30);
+    client.DefaultRequestHeaders.Add("User-Agent", "FinancialAPI/1.0");
+});
+
+// Services registration
+builder.Services.AddScoped<IStockService, StockService>();
 
 // Memory Cache
 builder.Services.AddMemoryCache();
@@ -44,7 +54,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Financial API V1");
-        c.RoutePrefix = string.Empty; // Swagger at root
+        c.RoutePrefix = string.Empty; // Swagger
     });
     app.UseCors("AllowAll");
 }
@@ -53,7 +63,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-// Ensure database is created
+//Database created
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
