@@ -257,9 +257,9 @@ Este projeto é open source e está disponível sob a [MIT License](LICENSE).
 
 ## 👨‍💻 Autor
 
-**Desenvolvido por:** [Seu Nome]  
-**Contato:** [seu.email@exemplo.com]  
-**LinkedIn:** [Seu LinkedIn]  
+**Desenvolvido por:** [Bernardo Kunz]  
+**Contato:** [bernardokunz@gmail.com]  
+**LinkedIn:** [https://www.linkedin.com/in/bernardokunz/]  
 **GitHub:** [@javabetatester](https://github.com/javabetatester)
 
 ---
