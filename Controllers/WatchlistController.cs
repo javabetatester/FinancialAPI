@@ -91,7 +91,6 @@ namespace FinancialAPI.Controllers
                     return BadRequest("Name is required");
                 }
 
-                // Verificar se já existe
                 var existingItem = await _context.WatchlistItems
                     .FirstOrDefaultAsync(w => w.Symbol.ToUpper() == item.Symbol.ToUpper());
 
@@ -100,7 +99,6 @@ namespace FinancialAPI.Controllers
                     return Conflict($"Symbol {item.Symbol} already exists in watchlist");
                 }
 
-                // Verificar se o símbolo é válido tentando buscar dados
                 var stock = await _stockService.GetStockAsync(item.Symbol);
                 if (stock == null)
                 {
